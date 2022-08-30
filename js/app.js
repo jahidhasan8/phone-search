@@ -8,23 +8,23 @@ const loadPhones = async (searchText) => {
 
 const displayPhones = phones => {
     const phonesContainer = document.getElementById('phones-container');
-    phonesContainer.textContent='';
+    phonesContainer.textContent = '';
 
     // display only 10 phones 
-     phones=phones.slice(0,10);
+    phones = phones.slice(0, 10);
     // display not found message
     const notFoundMessage = document.getElementById('not-found-message');
-     if(phones.length===0){
+    if (phones.length === 0) {
         notFoundMessage.classList.remove('d-none')
-     }
-     else{
+    }
+    else {
         notFoundMessage.classList.add('d-none');
-     }
+    }
 
 
     //  display all phones
     phones.forEach(phone => {
-        const{image, brand, phone_name, slug} = phone;
+        const { image, brand, phone_name, slug } = phone;
         const phoneDiv = document.createElement('div');
         phoneDiv.classList.add('col');
 
@@ -41,30 +41,30 @@ const displayPhones = phones => {
         phonesContainer.appendChild(phoneDiv);
     });
     // stop loader
-   toggleLoader(false)
+    toggleLoader(false)
 }
 
 // get search field, add event handler
 
-document.getElementById('btn-search').addEventListener('click', function(){
+document.getElementById('btn-search').addEventListener('click', function () {
     //start loader
-     toggleLoader(true)
+    toggleLoader(true)
     const searchField = document.getElementById('search-field');
 
     const searchText = searchField.value;
     // console.log(searchText);
     loadPhones(searchText);
-    searchField.value='';
+    searchField.value = '';
 })
 
 // loader function
-const toggleLoader =isLoading =>{
+const toggleLoader = isLoading => {
     const loader = document.getElementById('loader');
-      if(isLoading){
+    if (isLoading) {
         loader.classList.remove('d-none')
-      }
-      else{
+    }
+    else {
         loader.classList.add('d-none');
-      }
+    }
 }
 // loadPhones();
