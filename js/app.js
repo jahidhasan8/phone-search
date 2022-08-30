@@ -43,6 +43,8 @@ const displayPhones = (phones, dataLimit) => {
                     <div class="card-body">
                       <h5 class="card-title fw-bold">${phone_name} </h5>
                       <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                      <button onclick="loadPhoneDetails('${slug}')" href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#phoneDetailModal">View Details</button>
+
                     </div>
                   </div>
         
@@ -69,6 +71,14 @@ document.getElementById('btn-search').addEventListener('click', function () {
     
 })
 
+// search input field enter key handler
+document.getElementById('search-field').addEventListener('keypress', function (e) {
+    if (e.key === 'Enter') {
+      // code for enter
+      processSearch(10)
+    }
+});
+
 // loader function
 const toggleLoader = isLoading => {
     const loader = document.getElementById('loader');
@@ -85,6 +95,32 @@ document.getElementById('btn-view-all').addEventListener('click', function(){
       
     processSearch();
 })
+
+// load phone details
+
+const loadPhoneDetails = async id => {
+    const url=`https://openapi.programming-hero.com/api/phone/${id}`;
+    const res = await fetch(url);
+    const data = await res.json()
+    displayPhoneDetails(data.data);
+
+}
+  
+const displayPhoneDetails = phone =>{
+
+    const modalTitle = document.getElementById('phoneDetailModalLabel');
+    modalTitle.innerText=phone.name;
+    const phoneDetails = document.getElementById('phone-details');
+    phoneDetails.innerHTML=`
+        <p>Release Date: ${phone.releaseDate ? phone.releaseDate : 'N/A'} </p>
+        <p>Display Size: ${phone.mainFeatures.displaySize ? phone.mainFeatures.displaySize : 'N/A'} </p>
+        <p>Storage: ${phone.mainFeatures.storage ? phone.mainFeatures.storage : 'N/A'} </p>
+        <p>Sensors: ${phone.mainFeatures.sensors ? phone.mainFeatures.sensors  : 'N/A'} </p>
+        <p>Bluetooth: ${phone.others.Bluetooth ? phone.others.Bluetooth : 'N/A'} </p>
+    
+    `
+    
+}
 
 
 // loadPhones();
